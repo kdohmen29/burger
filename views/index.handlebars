@@ -1,0 +1,50 @@
+<h1> Eat Da Burger </h1>
+<h2>Burgers ready to eat</h2>
+
+{{#each items}}
+  {{#if devoured}}
+  {{else}}
+    <p>{{burger_name}} <button class="devour" data-id="{{id}}">devour</button></p>
+  {{/if}}
+{{/each}}
+<h2>Devoured</h2>
+
+{{#each items}}
+  {{#if devoured}}
+    <p>{{burger_name}} </p>
+  {{else}}
+  {{/if}}
+{{/each}}
+<h2>Make a new Burger</h2>
+  <input id="burger-text">
+  <button id="addBurger">Make Burger</button>
+
+
+
+<script>
+  $(document).on("click", ".devour", function () {
+    var id = $(this).attr("data-id")
+    $.ajax({
+      method: "PUT",
+      url:"/devour",
+      data: { id: id }
+    }).then(function () {
+      location.reload();
+    })
+  })
+
+  $(document).on("click", "#addBurger", function () {
+    var text = $("#burger-text").val()
+    $.ajax({
+      method: "POST",
+      url:"/add",
+      data: { text: text }
+    }).then(function () {
+      location.reload();
+    })
+  })
+
+
+</script>
+
+<!-- we need to make an ajax call to the update route in server and send id with it -->
